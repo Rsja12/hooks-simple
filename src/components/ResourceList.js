@@ -5,19 +5,20 @@ const ResourceList = ({ resource }) => {
 
     const [ allResources, setAllResources ] = useState([])
 
-    const fetchResource = async (resource) => {
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/${ resource }`)
-
-        setAllResources(response.data)
-    }
-
+    // Have to use an IIFE to avoid console warning about not returning a promise
     useEffect(() => {
-        fetchResource(resource)
+        
+        (async resource => {
+            const response = await axios.get(`https://jsonplaceholder.typicode.com/${resource}`)
+
+            setAllResources(response.data)
+        })(resource)
+
     }, [resource])
 
     return (
         <ul>
-            { allResources.map( record => <li key={record.id}>{ record.title }</li> ) }
+            { allResources.map( record => <li key={record}>{ record.title }</li> ) }
         </ul>
     )
 }
