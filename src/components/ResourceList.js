@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React from 'react'
+
+import useResources from './useResources'
 
 const ResourceList = ({ resource }) => {
 
-    const [ allResources, setAllResources ] = useState([])
-
-    // Have to use an IIFE to avoid console warning about not returning a promise
-    useEffect(() => {
-        
-        (async resource => {
-            const response = await axios.get(`https://jsonplaceholder.typicode.com/${resource}`)
-
-            setAllResources(response.data)
-        })(resource)
-
-    }, [resource])
+    const allResources = useResources(resource)
 
     return (
         <ul>
